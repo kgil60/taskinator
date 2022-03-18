@@ -49,15 +49,32 @@ function createTaskEl(taskDataObj) {
 
     let taskActionsEl = createTaskActions(taskIdCounter);
     taskItem.appendChild(taskActionsEl);
-    taskList.appendChild(taskItem);
+    // taskList.appendChild(taskItem);
+
+    switch (taskDataObj.status) {
+        case "to do":
+            taskActionsEl.querySelector("select[name='status-change']").selectedIndex = 0;
+            taskList.append(taskItem);
+            break;
+        case "in progress":
+            taskActionsEl.querySelector("select[name='status-change']").selectedIndex = 1;
+            tasksInProgressEl.append(taskItem);
+            break;
+        case "completed":
+            taskActionsEl.querySelector("select[name='status-change']").selectedIndex = 2;
+            tasksCompletedEl.append(taskItem);
+            break;
+        default:
+            console.log("There was an error");
+    }
 
     taskDataObj.id = taskIdCounter;
 
     tasksArr.push(taskDataObj);
 
-    taskIdCounter++;
-
     saveTasks();
+
+    taskIdCounter++;
 }
 
 function createTaskActions(taskId) {
